@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace ConsoleTestPoint
 {
@@ -10,7 +7,12 @@ namespace ConsoleTestPoint
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World");
+            string filePath="TextFile.txt";
+
+            //Console.WriteLine(File.Exists(filePath));
+
+            Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
+            Console.WriteLine(System.IO.Directory.GetParent());
 
             Console.ReadKey();
         }

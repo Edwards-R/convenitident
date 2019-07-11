@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTestPoint", "Console
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreLib", "CoreLib\CoreLib.csproj", "{DE46AAB0-1A05-44D9-9667-F33B4563261C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Databases", "Databases", "{B50FD245-5C3E-4FF0-91AB-0BD1E43C82A1}"
+	ProjectSection(SolutionItems) = preProject
+		Databases\Core.db = Databases\Core.db
+		Databases\Records.db = Databases\Records.db
+		Databases\Taxonomy.db = Databases\Taxonomy.db
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
