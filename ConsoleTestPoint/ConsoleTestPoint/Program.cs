@@ -10,8 +10,6 @@ namespace ConsoleTestPoint
             string filePath="Databases/Core.db";
 
             Console.WriteLine(File.Exists(filePath));
-
-            Console.ReadKey();
         }
     }
 }
