@@ -7,12 +7,9 @@ namespace ConsoleTestPoint
     {
         static void Main(string[] args)
         {
-            string filePath="TextFile.txt";
+            string filePath="Databases/Core.db";
 
-            //Console.WriteLine(File.Exists(filePath));
-
-            Console.WriteLine(System.IO.Directory.GetCurrentDirectory());
-            Console.WriteLine(System.IO.Directory.GetParent());
+            Console.WriteLine(File.Exists(filePath));
 
             Console.ReadKey();
         }
