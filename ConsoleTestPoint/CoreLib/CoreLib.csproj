@@ -69,6 +69,8 @@
     <Compile Include="Core\RecordSource.cs" />
     <Compile Include="Core\RecordSourceType.cs" />
     <Compile Include="Records\Data\Factory.cs" />
+    <Compile Include="Records\Data\Source\Base.cs" />
+    <Compile Include="Records\Data\Source\SQLite.cs" />
     <Compile Include="Records\Dispatcher.cs" />
     <Compile Include="Taxonomy\Data\Source\Base.cs" />
     <Compile Include="Taxonomy\Data\Factory.cs" />
