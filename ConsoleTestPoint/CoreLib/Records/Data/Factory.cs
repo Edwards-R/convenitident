@@ -21,5 +21,10 @@ namespace CoreLib.Records.Data
                     throw new NotImplementedException();
             }
         }
+
+        public int FetchTestRecordCount(int tik)
+        {
+            return connection.FetchTestRecordCount(tik);
+        }
     }
 }

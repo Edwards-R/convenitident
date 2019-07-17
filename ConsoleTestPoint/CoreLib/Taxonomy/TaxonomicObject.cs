@@ -10,6 +10,7 @@ namespace CoreLib.Taxonomy
         public TaxonomicObject(int tik)
         {
             Name = Factory.FetchTaxaDetails(tik);
+            TIK = tik;
         }
     }
 }

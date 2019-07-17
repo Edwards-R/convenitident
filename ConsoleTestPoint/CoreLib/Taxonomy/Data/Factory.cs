@@ -11,7 +11,7 @@ namespace CoreLib.Taxonomy.Data
         private static Base ResolveFactory()
         {
             //Environment should direct this what to load, this is shortcutting that for dev
-            return new SQLite("Data Source=Data/Taxonomy.db;Version=3;");
+            return new SQLite("Data Source=Databases/Taxonomy.db;Version=3;");
         }
 
         public static string FetchTaxaDetails(int tik)

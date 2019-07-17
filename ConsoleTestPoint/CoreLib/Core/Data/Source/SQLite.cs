@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using System.Data.SQLite;
 
+using CoreLib.Helpers;
+
 namespace CoreLib.Core.Data.Source
 {
     class SQLite:Base
@@ -34,8 +36,10 @@ JOIN RecordSourceType on RecordSource.RSTID = RecordSourceType.RSTID";
 
             while (reader.Read())
             {
+
                 RecordSourceType srcType = new RecordSourceType(reader.GetInt32(0), reader.GetString(1));
-                sources.Add(new RecordSource(reader.GetInt32(2), srcType, reader.GetString(3), Convert.ToBoolean(reader.GetInt32(4)), reader.GetString(5), reader.GetInt32(6), reader.GetString(7)));
+
+                sources.Add(new RecordSource(reader.GetInt32(2), srcType, reader.GetString(3), Convert.ToBoolean(reader.GetInt32(4)), reader.GetString(5), reader.GetInt32(6), reader.GetStringSafe(7)));
             }
 
             return sources;
@@ -58,7 +62,8 @@ JOIN RecordSourceType on RecordSource.RSTID = RecordSourceType.RSTID";
 
         public override RecordCountCache FetchCountCache(RecordSource source, int tik)
         {
-            SQLiteCommand command = new SQLiteCommand("SELECT RCCID, Count, TimeStamp, DateTime() FROM RecordCountCache WHERE TIK=@tik AND RSID=@rsid");
+
+            SQLiteCommand command = new SQLiteCommand("SELECT RCCID, TIK, Count, TimeStamp, DateTime() FROM RecordCountCache WHERE TIK=@tik AND RSID=@rsid", connection);
             command.Parameters.AddWithValue("@tik", tik);
             command.Parameters.AddWithValue("rsid", source.RSID);
 
@@ -68,14 +73,42 @@ JOIN RecordSourceType on RecordSource.RSTID = RecordSourceType.RSTID";
             {
                 reader.Read();
 
-                return new RecordCountCache(reader.GetInt32(0), source, reader.GetInt32(1), Convert.ToDateTime(reader.GetString(2)), Convert.ToDateTime(reader.GetString(3)));
+                return new RecordCountCache(reader.GetInt32(0), reader.GetInt32(1), source, reader.GetInt32(2), Convert.ToDateTime(reader.GetString(3)), Convert.ToDateTime(reader.GetString(4)));
             }
             else
             {
                 //Need to create new count cache
-            }
 
-            return new RecordCountCache();
+                //Get the count from the source
+                Records.Dispatcher dispatcher = new Records.Dispatcher(source);
+                int count = dispatcher.FetchTestRecordCount(tik);
+
+                //Insert and get the last ID so that it can be selected
+                SQLiteCommand insertCommand = new SQLiteCommand("INSERT INTO RecordCountCache (RSID, TIK, Count, Timestamp) VALUES (@rsid, @tik, @count, DateTime())", connection);
+                insertCommand.Parameters.AddWithValue("@rsid", source.RSID);
+                insertCommand.Parameters.AddWithValue("@tik", tik);
+                insertCommand.Parameters.AddWithValue("@count", count);
+
+                insertCommand.ExecuteNonQuery();
+
+                //Created, now fetch by recursion
+
+                return FetchCountCache(source, tik);
+
+
+            }
+            throw new NotImplementedException();
+        }
+
+        public override DateTime UpdateCountCache(int rccid, int count)
+        {
+            SQLiteCommand command = new SQLiteCommand("UPDATE RecordCountCache SET Count = @count, TimeStamp=DateTime() WHERE RCCID=@rccid", connection);
+            command.Parameters.AddWithValue("@count", count);
+            command.Parameters.AddWithValue("@rccid", rccid);
+
+            DateTime dt = Convert.ToDateTime(command.ExecuteScalar());
+
+            return dt;
         }
     }
 }

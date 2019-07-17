@@ -24,6 +24,20 @@ namespace CoreLib.Core
             AllowedImage = image;
             AllowedAudio = audio;
             AllowedVideo = video;
+
+            CacheChecked = false;
+        }
+
+        public List<RecordCountCache> FetchRecordCache(List<RecordSource> sources)
+        {
+            List<RecordCountCache> caches = new List<RecordCountCache>();
+
+            foreach(RecordSource rs in sources)
+            {
+                caches.Add(Factory.FetchCountCache(rs, Taxa.TIK));
+            }
+
+            return caches;
         }
     }
 }

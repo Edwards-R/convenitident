@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using CoreLib.Core.Data.Source;
 
@@ -12,7 +13,7 @@ namespace CoreLib.Core
 
         public static Base ResolveFactory()
         {
-            return new SQLite("Databases/Core.db");
+            return new SQLite("Data Source=Databases/Core.db;Version=3");
         }
 
         public static List<RecordSource> FetchRecordSources(bool activeOnly)
@@ -29,6 +30,11 @@ namespace CoreLib.Core
         public static RecordCountCache FetchCountCache(RecordSource source, int tik)
         {
             return connection.FetchCountCache(source, tik);
+        }
+
+        public static DateTime UpdateCountCache(int rccid, int count)
+        {
+            return connection.UpdateCountCache(rccid, count);
         }
     }
 }

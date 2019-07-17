@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CoreLib.Core.Data.Source
 {
@@ -9,5 +10,7 @@ namespace CoreLib.Core.Data.Source
         public abstract List<AugTaxa> SelectImageTaxa();
 
         public abstract RecordCountCache FetchCountCache(RecordSource source, int tik);
+
+        public abstract DateTime UpdateCountCache(int rccid, int count);
     }
 }

@@ -16,12 +16,18 @@ namespace CoreLib.Records.Data.Source
 
         public override int FetchTestRecordCount(int tik)
         {
-            SQLiteCommand command = new SQLiteCommand("SELECT Count() FROM RecordFeed JOIN Record on Record.RecordID=RecordFeed.RecordID WHERE TIK=@tik AND RCID=3");
+            SQLiteCommand command = new SQLiteCommand("SELECT Count() FROM RecordFeed JOIN Record on Record.RecordID=RecordFeed.RecordID WHERE TIK=@tik AND RCID=3", connection);
             command.Parameters.AddWithValue("@tik", tik);
 
-            int x = (int)command.ExecuteScalar();
+            SQLiteDataReader reader = command.ExecuteReader();
 
-            return x;
+            reader.Read();
+
+            int cnt = reader.GetInt32(0);
+
+            reader.Close();
+
+            return cnt;
         }
     }
 }
